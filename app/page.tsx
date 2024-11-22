@@ -1,49 +1,42 @@
 "use client"
-import Image from "next/image";
-// import Image from "next/image";
+import React, { useState } from "react";
 import Link from "next/link";
-import { useState } from "react";
-
-
+import Navbar from './Navbar';
+import VideoCarousel from './VideoCarousel';
+import { useScrollAnimation } from './ScrollAnimation';
 
 export default function Home() {
+  useScrollAnimation();
   const [copied, setCopied] = useState(false);
   const contractAddress = 'FMWRBWhr49k3JtPBhYT5mGXayvXJkpsuTaodzjTRpump';
+
+  const videoList = [
+    '/work1.mp4',
+    '/work2.mp4',
+    // Add more videos from your public folder as needed
+  ];
 
   const handleCopy = () => {
     navigator.clipboard.writeText(contractAddress);
     setCopied(true);
-    setTimeout(() => setCopied(false), 2000); // Reset copy status after 2 seconds
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
-<div className="min-h-screen text-gray-800 font-[family-name:var(--font-geist-mono)]">
-  {/* Hero Section - Video and Meme Side by Side */}
-  <header className="container mx-auto px-4 py-12">
-    <h1 className="text-6xl font-bold mb-6 text-blue-400 text-center">$WORK</h1>
-    <p className="text-2xl mb-12 text-white text-center">
-      WHILE THE OTHERS ARE TRYING TO GET RICH QUICK, $WORK FOR YOUR BAGS, $WORK FOR YOUR FUTURE.
-    </p>
+    <div className="min-h-screen text-gray-800 font-[family-name:var(--font-geist-mono)]">
+      <Navbar />
 
-        <div className="grid md:grid-cols-2 gap-8 mb-12">
-          <div className="bg-blue-400 rounded-lg h-[410px] shadow-lg overflow-hidden">
-            <div className="aspect-video relative">
-              <video
-                controls
-                className="absolute inset-0 w-full h-full object-cover"
-                autoPlay
-                loop
-                muted
-                playsInline
-              >
-                <source src="/work1.mp4" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-            </div>
-          </div>
+      <header id="home" className="container mx-auto px-4 py-12 pt-32">
+        <h1 className="text-6xl font-bold mb-6 text-blue-400 text-center">$WORK</h1>
+        <p className="text-2xl mb-12 text-white text-center">
+          WHILE THE OTHERS ARE TRYING TO GET RICH QUICK, $WORK FOR YOUR BAGS, $WORK FOR YOUR FUTURE.
+        </p>
+
+        <div className="grid md:grid-cols-2 gap-8 mb-12 scroll-animate">
+          <VideoCarousel videos={videoList} />
 
           <div className="rounded-lg shadow-lg w-full">
-            <div className="relative w-full h-[410px] pt-[56.25%]"> {/* 16:9 Aspect Ratio Container */}
+            <div className="relative w-full h-[410px] pt-[56.25%]">
               <iframe
                 className="absolute top-0 left-0 w-full h-full border-0 rounded-lg"
                 src="https://dexscreener.com/solana/9ng9PmgS2LaQjou7SpuzYi21qUMmWCGrnMYmmBEj8wBZ?embed=1&loadChartSettings=0&chartLeftToolbar=0&chartTheme=dark&theme=dark&chartStyle=0&chartType=usd&interval=15"
@@ -51,30 +44,29 @@ export default function Home() {
               ></iframe>
             </div>
           </div>
-
         </div>
-      
 
         <div className="flex flex-col items-center gap-4">
-          <div className="flex gap-4"><Link href="https://dexscreener.com/solana/9ng9pmgs2laqjou7spuzyi21qummwcgrnmymmbej8wbz">
-                <button className="bg-blue-400 hover:bg-blue-200 px-8 py-3 rounded-full font-bold flex items-center justify-center gap-2 transition-all duration-300 ease-in-out transform hover:scale-110 w-full sm:w-auto">
-                  <p className="text-white">Buy $WORK</p>
-                  <span className="text-xl text-white">→</span>
-                </button>
-              </Link>
-              </div>
+          <div className="flex gap-4">
+            <Link href="https://dexscreener.com/solana/9ng9pmgs2laqjou7spuzyi21qummwcgrnmymmbej8wbz">
+              <button className="bg-blue-400 hover:bg-blue-200 px-8 py-3 rounded-full font-bold flex items-center justify-center gap-2 transition-all duration-300 ease-in-out transform hover:scale-110 w-full sm:w-auto">
+                <p className="text-white">Buy $WORK</p>
+                <span className="text-xl text-white">→</span>
+              </button>
+            </Link>
+          </div>
 
-              <div className="flex gap-4">
-              <div className="flex items-center bg-blue-400 h-[52px] px-4 py-3 rounded-lg gap-2 w-full sm:w- ">
+          <div className="flex gap-4">
+            <div className="flex items-center bg-blue-400 h-[52px] px-4 py-3 rounded-lg gap-2 w-full sm:w-">
               <p className="text-white truncate flex-grow">CA: {contractAddress.slice(0, 7)}...</p>
-                <button
-                  onClick={handleCopy}
-                  className="bg-gray-500 hover:bg-blue-500 text-white px-3 py-1 rounded-md transition-all duration-300"
-                >
-                  {copied ? 'Copied!' : 'Copy'}
-                </button>
-              </div>
-              </div>
+              <button
+                onClick={handleCopy}
+                className="bg-gray-500 hover:bg-blue-500 text-white px-3 py-1 rounded-md transition-all duration-300"
+              >
+                {copied ? 'Copied!' : 'Copy'}
+              </button>
+            </div>
+          </div>
           
           <div className="flex gap-4">
             <Link href="https://x.com/Work_CTO" className="bg-blue-400 hover:bg-blue-200 p-3 rounded-full transition-all duration-300 ease-in-out transform hover:scale-110">
@@ -101,24 +93,24 @@ export default function Home() {
         </div>
       </header>
 
-      <section className="bg-blue-600/10 py-12">
+      <section id="why-work" className="bg-blue-600/10 py-12 scroll-animate">
         <h2 className="text-4xl text-white font-bold text-center mb-12">Why Choose $WORK?</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="bg-blue-400 p-6 rounded-lg text-center backdrop-blur-sm">
+          <div className="bg-blue-400 p-6 rounded-lg text-center backdrop-blur-sm scroll-animate">
             <div className="flex justify-center mb-4">
               <span className="text-white text-4xl">🚀</span>
             </div>
             <h3 className="text-xl text-white font-bold mb-2">Moon Through Hard Work</h3>
             <p className="text-white">No shortcuts. Pure grind. Real gains.</p>
           </div>
-          <div className="bg-blue-400 p-6 rounded-lg text-center backdrop-blur-sm">
+          <div className="bg-blue-400 p-6 rounded-lg text-center backdrop-blur-sm scroll-animate">
             <div className="flex justify-center mb-4">
               <span className="text-white text-4xl">⏰</span>
             </div>
             <h3 className="text-xl text-white font-bold mb-2">24/7 Grinding</h3>
             <p className="text-white">While others sleep, we build wealth. Join the community dedicated to hustling in the trenches.</p>
           </div>
-          <div className="bg-blue-400 p-6 rounded-lg text-center backdrop-blur-sm">
+          <div className="bg-blue-400 p-6 rounded-lg text-center backdrop-blur-sm scroll-animate">
             <div className="flex justify-center mb-4">
               <span className="text-white text-4xl">💰</span>
             </div>
@@ -128,14 +120,13 @@ export default function Home() {
         </div>
       </section>
 
-
       {/* Roadmap Section */}
-      <section className="container mx-auto px-4 py-20">
+      <section id="roadmap" className="container mx-auto px-4 py-20 scroll-animate">
         <h2 className="text-4xl font-bold text-center mb-12 text-white">THE PATH OF PAIN</h2>
         <div className="max-w-4xl mx-auto">
           <div className="space-y-8">
             {/* Phase 1 */}
-            <div className="bg-blue-400 p-6 rounded-lg shadow-lg border-l-4 border-blue-600">
+            <div className="bg-blue-400 p-6 rounded-lg shadow-lg border-l-4 border-blue-600 scroll-animate">
               <h3 className="text-xl text-white font-bold mb-4 flex items-center gap-2">
                 <span className="text-2xl">💪</span> Phase 1: Break Your Limitations
               </h3>
