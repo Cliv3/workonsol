@@ -339,8 +339,8 @@ export default function Home() {
                     <span className="text-2xl text-white">→</span>
                   </button>
                 </Link>
-                <div className="flex items-center bg-blue-400/50 backdrop-blur-sm px-6 py-3 rounded-lg gap-4 w-full sm:w-auto">
-                  <p className="text-white">CA: {contractAddress.slice(0, 7)}...</p>
+                <div className="flex items-center justify-between bg-blue-400/50 backdrop-blur-sm px-6 py-3 rounded-lg gap-4 w-full sm:w-auto">
+                  <p className="text-white">CA: {contractAddress.slice(0, 24)}...</p>
                   <button
                     onClick={handleCopy}
                     className="bg-blue-500/50 hover:bg-blue-500 text-white px-4 py-2 rounded-md transition-all duration-300"
@@ -445,51 +445,68 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-gray-800 font-[family-name:var(--font-geist-mono)] overflow-x-hidden">
-      {/* <CursorRadiance /> */}
-      <Navbar />
-      
-      {/* Navigation Dots */}
-      <div className="fixed top-1/2 right-8 transform -translate-y-1/2 z-50">
-        <div className="flex flex-col gap-4">
-          {sections.map((_, index) => (
-            <div
-              key={index}
-              className={`w-3 h-3 rounded-full cursor-pointer transition-all duration-300 ${
-                activeSection === index ? 'bg-blue-400 w-6' : 'bg-white/50 hover:bg-white'
-              }`}
-              onClick={() => {
-                sectionsRef.current[index].scrollIntoView({ behavior: 'smooth' });
-              }}
-            />
-          ))}
-        </div>
+    <div className="relative min-h-screen overflow-x-hidden font-[family-name:var(--font-geist-mono)]">
+      {/* Base background with multiple subtle gradients */}
+      <div className="fixed inset-0 z-0">
+        {/* Primary gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-b from-gray-900 via-gray-900 to-black"></div>
+        
+        {/* Subtle blue accent gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-transparent"></div>
+        
+        {/* Additional depth gradient */}
+        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-gray-800/5 to-transparent"></div>
+        
+        {/* Optional: Very subtle noise texture overlay */}
+        <div className="absolute inset-0 opacity-[0.015] bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIiB4PSIwIiB5PSIwIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjMwMCIgaGVpZ2h0PSIzMDAiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iMC41Ii8+PC9zdmc+')]"></div>
       </div>
 
-      {/* Main Content */}
-      {sections.map((section, index) => (
-        <section
-          key={section.id}
-          ref={el => sectionsRef.current[index] = el}
-          className="snap-start"
-        >
-          {section.content}
-        </section>
-      ))}
+      {/* Content wrapper with relative positioning */}
+      <div className="relative z-10">
+        <Navbar />
+        
+        {/* Navigation Dots */}
+        <div className="fixed top-1/2 right-8 transform -translate-y-1/2 z-50">
+          <div className="flex flex-col gap-4">
+            {sections.map((_, index) => (
+              <div
+                key={index}
+                className={`w-3 h-3 rounded-full cursor-pointer transition-all duration-300 ${
+                  activeSection === index ? 'bg-blue-400 w-6' : 'bg-white/50 hover:bg-white'
+                }`}
+                onClick={() => {
+                  sectionsRef.current[index].scrollIntoView({ behavior: 'smooth' });
+                }}
+              />
+            ))}
+          </div>
+        </div>
 
-      {/* Social Links */}
-      <div className="fixed bottom-8 left-8 z-50">
-        <div className="flex gap-6">
-          <Link href="https://x.com/Work_CTO" className="text-white hover:text-blue-400 transition-colors">
-            <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M23.643 4.937c-.835.37-1.732.62-2.675.733.962-.576 1.7-1.49 2.048-2.578-.9.534-1.897.922-2.958 1.13-.85-.904-2.06-1.47-3.4-1.47-2.572 0-4.658 2.086-4.658 4.66 0 .364.042.718.12 1.06-3.873-.195-7.304-2.05-9.602-4.868-.4.69-.63 1.49-.63 2.342 0 1.616.823 3.043 2.072 3.878-.764-.025-1.482-.234-2.11-.583v.06c0 2.257 1.605 4.14 3.737 4.568-.392.106-.803.162-1.227.162-.3 0-.593-.028-.877-.082.593 1.85 2.313 3.198 4.352 3.234-1.595 1.25-3.604 1.995-5.786 1.995-.376 0-.747-.022-1.112-.065 2.062 1.323 4.51 2.093 7.14 2.093 8.57 0 13.255-7.098 13.255-13.254 0-.2-.005-.402-.014-.602.91-.658 1.7-1.477 2.323-2.41z"/>
-            </svg>
-          </Link>
-          <Link href="https://t.me/HowToMakeMoneyCTOwork" className="text-white hover:text-blue-400 transition-colors">
-            <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.02-1.96 1.25-5.5 3.67-.52.36-.99.53-1.42.52-.47-.01-1.37-.26-2.03-.48-.82-.27-1.47-.42-1.42-.88.03-.24.37-.48 1.03-.74 4.04-1.76 6.74-2.92 8.09-3.48 3.85-1.6 4.64-1.88 5.17-1.89.11 0 .37.03.54.17.14.12.18.28.2.45-.01.05.01.13 0 .21z"/>
-            </svg>
-          </Link>
+        {/* Main Content */}
+        {sections.map((section, index) => (
+          <section
+            key={section.id}
+            ref={el => sectionsRef.current[index] = el}
+            className="snap-start"
+          >
+            {section.content}
+          </section>
+        ))}
+
+        {/* Social Links */}
+        <div className="fixed bottom-8 left-8 z-50">
+          <div className="flex gap-6">
+            <Link href="https://x.com/Work_CTO" className="text-white hover:text-blue-400 transition-colors">
+              <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M23.643 4.937c-.835.37-1.732.62-2.675.733.962-.576 1.7-1.49 2.048-2.578-.9.534-1.897.922-2.958 1.13-.85-.904-2.06-1.47-3.4-1.47-2.572 0-4.658 2.086-4.658 4.66 0 .364.042.718.12 1.06-3.873-.195-7.304-2.05-9.602-4.868-.4.69-.63 1.49-.63 2.342 0 1.616.823 3.043 2.072 3.878-.764-.025-1.482-.234-2.11-.583v.06c0 2.257 1.605 4.14 3.737 4.568-.392.106-.803.162-1.227.162-.3 0-.593-.028-.877-.082.593 1.85 2.313 3.198 4.352 3.234-1.595 1.25-3.604 1.995-5.786 1.995-.376 0-.747-.022-1.112-.065 2.062 1.323 4.51 2.093 7.14 2.093 8.57 0 13.255-7.098 13.255-13.254 0-.2-.005-.402-.014-.602.91-.658 1.7-1.477 2.323-2.41z"/>
+              </svg>
+            </Link>
+            <Link href="https://t.me/HowToMakeMoneyCTOwork" className="text-white hover:text-blue-400 transition-colors">
+              <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.02-1.96 1.25-5.5 3.67-.52.36-.99.53-1.42.52-.47-.01-1.37-.26-2.03-.48-.82-.27-1.47-.42-1.42-.88.03-.24.37-.48 1.03-.74 4.04-1.76 6.74-2.92 8.09-3.48 3.85-1.6 4.64-1.88 5.17-1.89.11 0 .37.03.54.17.14.12.18.28.2.45-.01.05.01.13 0 .21z"/>
+              </svg>
+            </Link>
+          </div>
         </div>
       </div>
     </div>
